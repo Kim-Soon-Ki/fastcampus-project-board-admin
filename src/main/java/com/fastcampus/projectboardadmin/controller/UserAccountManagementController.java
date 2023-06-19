@@ -17,6 +17,8 @@ public class UserAccountManagementController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             Model model
     ) {
-        return "management/userAccounts";
+        model.addAttribute("context", "/management");
+        model.addAttribute("uri", "/management/user_accounts");
+        return "/management/user-accounts";
     }
 }
