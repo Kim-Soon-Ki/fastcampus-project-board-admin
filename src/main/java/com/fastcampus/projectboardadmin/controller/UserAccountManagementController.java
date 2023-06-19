@@ -18,7 +18,7 @@ public class UserAccountManagementController {
             Model model
     ) {
         model.addAttribute("context", "/management");
-        model.addAttribute("uri", "/management/user_accounts");
-        return "/management/user-accounts";
+        model.addAttribute("uri", "/management/user-accounts");
+        return "management/user-accounts";
     }
 }
