@@ -51,6 +51,8 @@ spring:
 server:
   port: 8081
 
+project.board.url: http://localhost:8080
+
 ---
 
 spring:
