@@ -18,7 +18,8 @@ import java.util.Optional;
 public class ArticleManagementService {
 
     private final RestTemplate restTemplate;
-    private  final ProjectProperties projectProperties;
+    private final ProjectProperties projectProperties;
+
 
     public List<ArticleDto> getArticles() {
         URI uri = UriComponentsBuilder.fromHttpUrl(projectProperties.board().url() + "/api/articles")
@@ -27,13 +28,11 @@ public class ArticleManagementService {
                 .toUri();
         ArticleClientResponse response = restTemplate.getForObject(uri, ArticleClientResponse.class);
 
-
-        return Optional.ofNullable(response)
-                .orElseGet(ArticleClientResponse::empty).articles();
+        return Optional.ofNullable(response).orElseGet(ArticleClientResponse::empty).articles();
     }
 
     public ArticleDto getArticle(Long articleId) {
-        URI uri = UriComponentsBuilder.fromHttpUrl(projectProperties.board().url() + "/api/articles" + articleId)
+        URI uri = UriComponentsBuilder.fromHttpUrl(projectProperties.board().url() + "/api/articles/" + articleId)
                 .build()
                 .toUri();
         ArticleDto response = restTemplate.getForObject(uri, ArticleDto.class);
@@ -43,7 +42,7 @@ public class ArticleManagementService {
     }
 
     public void deleteArticle(Long articleId) {
-        URI uri = UriComponentsBuilder.fromHttpUrl(projectProperties.board().url() + "/api/articles" + articleId)
+        URI uri = UriComponentsBuilder.fromHttpUrl(projectProperties.board().url() + "/api/articles/" + articleId)
                 .build()
                 .toUri();
         restTemplate.delete(uri);
