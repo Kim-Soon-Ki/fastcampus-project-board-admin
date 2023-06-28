@@ -1,6 +1,8 @@
 package com.fastcampus.projectboardadmin.controller;
 
 import com.fastcampus.projectboardadmin.dto.response.AdminAccountResponse;
+import com.fastcampus.projectboardadmin.service.AdminAccountService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -16,11 +18,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
-@RequestMapping("/admin/members")
+@RequiredArgsConstructor
 @Controller
 public class AdminAccountController {
 
-    @GetMapping
+    private final AdminAccountService adminAccountService;
+
+    @GetMapping("/admin/members")
     public String members(Model model) {
         model.addAttribute("context", "/admin");
         model.addAttribute("uri", "/admin/members");
@@ -30,12 +34,15 @@ public class AdminAccountController {
     @ResponseBody
     @GetMapping("/api/admin/members")
     public List<AdminAccountResponse> getMembers() {
-        return List.of();
+        return adminAccountService.users().stream()
+                .map(AdminAccountResponse::from)
+                .toList();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     @DeleteMapping("/api/admin/members/{userId}")
     public void delete(@PathVariable String userId) {
+        adminAccountService.deleteUser(userId);
     }
 }
